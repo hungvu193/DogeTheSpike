@@ -29,11 +29,11 @@ public class LeftWallHandle : MonoBehaviour
     objectWidth = obsPrefabs.transform.GetComponent<SpriteRenderer>().bounds.size.x;
     objectBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
     transform.position = new Vector2(-objectBounds.x - objectWidth, 0);
-    initialPosition = -objectBounds.y + objectHeight / 2;
+    initialPosition = -objectBounds.y + objectHeight;
 
     GameObject obs = Instantiate(obsPrefabs) as GameObject;
     obs.transform.SetParent(gameObject.transform);
-    obs.transform.position = new Vector2(-objectBounds.x - objectWidth, initialPosition);
+    obs.transform.position = new Vector2(-objectBounds.x - objectWidth / 2, initialPosition);
     StartCoroutine(SpawObject());
 
 
@@ -77,15 +77,13 @@ public class LeftWallHandle : MonoBehaviour
 
   IEnumerator SpawObject()
   {
-    numberOfObs = (int)((2 * objectBounds.y - objectHeight / 2) / objectHeight);
-    for (int i = 0; i < numberOfObs; i++)
+    numberOfObs = (int)((2 * objectBounds.y - objectHeight) / objectHeight);
+    for (int i = 0; i < numberOfObs - 1; i++)
     {
 
       GameObject obs = Instantiate(obsPrefabs) as GameObject;
-      Vector3 currentPosition = new Vector3(-objectBounds.x - objectWidth, initialPosition + objectHeight);
-      Vector3 nextPosition = new Vector3(-objectBounds.x + objectWidth, initialPosition + objectHeight);
       obs.transform.SetParent(gameObject.transform);
-      obs.transform.position = new Vector2(-objectBounds.x - objectWidth, initialPosition + objectHeight);
+      obs.transform.position = new Vector2(-objectBounds.x - objectWidth / 2, initialPosition + objectHeight);
       initialPosition = initialPosition + objectHeight;
       listObs.Add(obs);
     }

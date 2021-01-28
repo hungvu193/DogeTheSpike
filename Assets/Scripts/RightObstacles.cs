@@ -26,8 +26,8 @@ public class RightObstacles : MonoBehaviour
     objectHeight = obsPrefabs.transform.GetComponent<SpriteRenderer>().bounds.size.y;
     objectWidth = obsPrefabs.transform.GetComponent<SpriteRenderer>().bounds.size.x;
     objectBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-    transform.position = new Vector2(objectBounds.x + objectWidth, 0);
-    initialPosition = objectBounds.y - objectHeight / 2;
+    transform.position = new Vector2(objectBounds.x + 1.5f * objectWidth, 0);
+    initialPosition = objectBounds.y - objectHeight;
     StartCoroutine(SpawObject());
     // InvokeRepeating("MoveWall", 0, 4.0f);
 
@@ -47,7 +47,7 @@ public class RightObstacles : MonoBehaviour
     else
     {
       transform.position = Vector2.Lerp(transform.position,
-             new Vector2(objectBounds.x + objectWidth, transform.position.y),
+             new Vector2(objectBounds.x + 1.5f * objectWidth, transform.position.y),
              (Mathf.Sin(speed * Time.time) + 1.0f) / 2.0f);
     }
   }
@@ -79,7 +79,7 @@ public class RightObstacles : MonoBehaviour
 
 
     numberOfObs = (int)((2 * objectBounds.y - objectHeight / 2) / objectHeight);
-    for (int i = 0; i < numberOfObs; i++)
+    for (int i = 0; i < numberOfObs - 1; i++)
     {
       GameObject obs = Instantiate(obsPrefabs) as GameObject;
       obs.transform.SetParent(gameObject.transform);
