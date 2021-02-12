@@ -39,9 +39,19 @@ public class Player : MonoBehaviour
 
   private bool isGameStart = false;
 
+  private int scoreNum = 0;
+
+  public GameObject bird;
+
+  public Text bestScore;
+
+  public ParticleSystem birdParticle;
+  private int lastHightScore = 0;
+
+  public Text menuPoint;
   void Start()
   {
-    sp = GetComponent<SpriteRenderer>();
+    sp = bird.GetComponent<SpriteRenderer>();
     egWidth = eggPrefabs.GetComponent<SpriteRenderer>().size.x;
     screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
     localScaleX = transform.localScale.x;
@@ -50,12 +60,14 @@ public class Player : MonoBehaviour
     giftObject = Instantiate(giftPrefabs) as GameObject;
     giftObject.SetActive(false);
     StartCoroutine(RandomGift());
-
+    // birdParticle.
     rb = GetComponent<Rigidbody2D>();
-    anim = GetComponent<Animator>();
+    anim = bird.GetComponent<Animator>();
     rb.gravityScale = 0;
     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-    score.SetActive(false);
+    score.gameObject.SetActive(false);
+    lastHightScore = PlayerPrefs.GetInt("Score", 0);
+    bestScore.text = "BEST SCORE: " + lastHightScore.ToString();
   }
 
 
@@ -63,23 +75,46 @@ public class Player : MonoBehaviour
   void Update()
   {
 
+    if (isGameOver) return;
 
-    if (!isGameOver && (Input.GetButtonDown("Jump") || Input.touchCount > 0))
+    for (int i = 0; i < Input.touchCount; ++i)
+    {
+      if (Input.GetTouch(i).phase == TouchPhase.Began)
+      {
+        if (!isGameStart)
+        {
+          isGameStart = true;
+          rb.gravityScale = 1;
+          prepareGameStart();
+          StartCoroutine(RandomGift());
+          anim.enabled = false;
+        }
+        anim.enabled = true;
+        anim.SetTrigger("Fly");
+        birdParticle.Play();
+        rb.AddForce(Vector2.up * pushForce);
+        rb.velocity = Vector2.right.normalized * speed * orientation;
+      }
+    }
+
+    if (Input.GetButtonDown("Jump"))
     {
       if (!isGameStart)
       {
         isGameStart = true;
         rb.gravityScale = 1;
-        // anim.enabled = false;
         prepareGameStart();
         StartCoroutine(RandomGift());
+        anim.enabled = false;
       }
       anim.enabled = true;
       anim.SetTrigger("Fly");
+      birdParticle.Play();
       rb.AddForce(Vector2.up * pushForce);
       rb.velocity = Vector2.right.normalized * speed * orientation;
-
     }
+
+
   }
 
   private void prepareGameStart()
@@ -89,7 +124,9 @@ public class Player : MonoBehaviour
     GameObject.Find("DogeTheSpike").SetActive(false);
     GameObject.Find("TapToJump").SetActive(false);
     GameObject.Find("Bestscore").SetActive(false);
-    // GameObject.Find("Score").SetActive(true);
+    score.text = "00";
+    score.gameObject.SetActive(true);
+    score.text = scoreNum.ToString();
   }
 
   IEnumerator RandomGift()
@@ -115,12 +152,25 @@ public class Player : MonoBehaviour
   {
     localScaleX = -localScaleX;
     transform.localScale = new Vector3(localScaleX, localScaleY, localScaleZ);
+    // birdParticle.transform.localScale = new Vector3(localScaleX, localScaleY, localScaleZ);
+  }
+
+  private void increaseScore()
+  {
+    if (!isGameOver)
+    {
+      scoreNum++;
+      score.text = scoreNum.ToString();
+
+    }
   }
 
   private void OnTriggerEnter2D(Collider2D other)
   {
     if (other.gameObject.tag == "RightWall")
     {
+      birdParticle.Stop();
+      increaseScore();
       ChangeLocalScale();
       orientation = -orientation;
       rb.velocity = Vector2.right.normalized * speed / 2 * orientation;
@@ -129,6 +179,8 @@ public class Player : MonoBehaviour
     }
     else if (other.gameObject.tag == "LeftWall")
     {
+      birdParticle.Stop();
+      increaseScore();
       ChangeLocalScale();
       orientation = -orientation;
       rb.velocity = Vector2.right.normalized * speed / 2 * orientation;
@@ -152,16 +204,26 @@ public class Player : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.None;
         anim.enabled = false;
         sp.sprite = xbird;
+        score.text = "";
         menu.SetActive(true);
         menu.GetComponent<Animator>().SetTrigger("ShowMenu");
-        GameObject.Find("Score").SetActive(false);
+        menuPoint.text = scoreNum.ToString() + " Points";
+        score.gameObject.SetActive(false);
+        if (scoreNum > lastHightScore)
+        {
+          PlayerPrefs.SetInt("Score", scoreNum);
+        }
+
+
         break;
       case "LeftWall":
+        increaseScore();
         ChangeLocalScale();
         orientation = -orientation;
         // rb.velocity = Vector2.right.normalized * speed / 2 * orientation;
         leftObstacles.GetComponent<LeftWallHandle>().MoveWall(false);
         rightObstacles.GetComponent<RightObstacles>().MoveWall(true);
+        birdParticle.Stop();
         break;
       default: return;
     }
