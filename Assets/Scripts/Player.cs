@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
 
     for (int i = 0; i < Input.touchCount; ++i)
     {
-      if (Input.GetTouch(i).phase == TouchPhase.Began)
+      if (Input.GetTouch(i).phase == TouchPhase.Began && Input.touchCount <= 1)
       {
         if (!isGameStart)
         {
@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
           StartCoroutine(RandomGift());
           anim.enabled = false;
         }
+        FindObjectOfType<SoundManager>().Play("Jump");
         anim.enabled = true;
         anim.SetTrigger("Fly");
         birdParticle.Play();
@@ -107,6 +108,7 @@ public class Player : MonoBehaviour
         StartCoroutine(RandomGift());
         anim.enabled = false;
       }
+      FindObjectOfType<SoundManager>().Play("Jump");
       anim.enabled = true;
       anim.SetTrigger("Fly");
       birdParticle.Play();
@@ -189,6 +191,7 @@ public class Player : MonoBehaviour
     }
     else if (other.gameObject.tag == "Diamon")
     {
+      FindObjectOfType<SoundManager>().Play("Collect");
       StartCoroutine(RandomGift());
     }
   }
@@ -199,6 +202,7 @@ public class Player : MonoBehaviour
     {
 
       case "Obstacle":
+        FindObjectOfType<SoundManager>().Play("PlayerDeath");
         isGameOver = true;
         Destroy(giftObject);
         rb.constraints = RigidbodyConstraints2D.None;
