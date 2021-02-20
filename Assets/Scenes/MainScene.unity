@@ -214,7 +214,9 @@ MonoBehaviour:
   bird: {fileID: 1293605145}
   bestScore: {fileID: 489249273}
   birdParticle: {fileID: 786270580}
+  cam: {fileID: 519420031}
   menuPoint: {fileID: 1347412665}
+  lerpTime: 0.85
 --- !u!4 &28179678
 Transform:
   m_ObjectHideFlags: 0
