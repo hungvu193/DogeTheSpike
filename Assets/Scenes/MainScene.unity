@@ -223,7 +223,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28179673}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 86.3}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 1293605146}
@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 676546467}
   - component: {fileID: 676546469}
   - component: {fileID: 676546468}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -502,7 +502,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 676546466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -179}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 857285482}
@@ -5688,7 +5688,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &983358595
 RectTransform:
@@ -6804,7 +6804,7 @@ RectTransform:
   m_GameObject: {fileID: 1657898381}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 109.44, y: 109.44, z: 109.44}
+  m_LocalScale: {x: 115.673195, y: 115.673195, z: 115.673195}
   m_Children: []
   m_Father: {fileID: 857285482}
   m_RootOrder: 1
@@ -7793,7 +7793,7 @@ RectTransform:
   m_GameObject: {fileID: 2076125956}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 124.799995, y: 124.799995, z: 124.799995}
+  m_LocalScale: {x: 138.11069, y: 138.11069, z: 138.11069}
   m_Children: []
   m_Father: {fileID: 857285482}
   m_RootOrder: 2

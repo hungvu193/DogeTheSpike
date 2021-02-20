@@ -48,7 +48,12 @@ public class Player : MonoBehaviour
   public ParticleSystem birdParticle;
   private int lastHightScore = 0;
 
+  public Camera cam;
+
   public Text menuPoint;
+  private Color nextColor;
+  public float lerpTime;
+
   void Start()
   {
     sp = bird.GetComponent<SpriteRenderer>();
@@ -119,6 +124,17 @@ public class Player : MonoBehaviour
 
   }
 
+  void FixedUpdate()
+  {
+    if (nextColor != null && scoreNum > 0 && scoreNum % 5 == 0)
+    {
+      cam.backgroundColor = Color.Lerp(cam.backgroundColor, nextColor, lerpTime);
+    };
+
+
+
+  }
+
   private void prepareGameStart()
   {
     GameObject.Find("Rank").SetActive(false);
@@ -163,6 +179,10 @@ public class Player : MonoBehaviour
     {
       scoreNum++;
       score.text = scoreNum.ToString();
+      if (scoreNum >= 5 && scoreNum % 5 == 0)
+      {
+        nextColor = Random.ColorHSV();
+      }
 
     }
   }
@@ -175,7 +195,7 @@ public class Player : MonoBehaviour
       increaseScore();
       ChangeLocalScale();
       orientation = -orientation;
-      rb.velocity = Vector2.right.normalized * speed / 2 * orientation;
+      rb.velocity = Vector2.right.normalized * speed * orientation;
       leftObstacles.GetComponent<LeftWallHandle>().MoveWall(true);
       rightObstacles.GetComponent<RightObstacles>().MoveWall(false);
     }
@@ -224,7 +244,8 @@ public class Player : MonoBehaviour
         increaseScore();
         ChangeLocalScale();
         orientation = -orientation;
-        // rb.velocity = Vector2.right.normalized * speed / 2 * orientation;
+        rb.velocity = Vector2.right.normalized * speed / 2 * orientation;
+
         leftObstacles.GetComponent<LeftWallHandle>().MoveWall(false);
         rightObstacles.GetComponent<RightObstacles>().MoveWall(true);
         birdParticle.Stop();
