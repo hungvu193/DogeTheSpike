@@ -2,6 +2,10 @@
 
 Simple game made by Unity.
 
+![Screenshot1](https://github.com/hungvu193/DogeTheSpike/blob/master/Screenshot/Screenshot1.png)
+![Screenshot2](https://github.com/hungvu193/DogeTheSpike/blob/master/Screenshot/Screen%20Shot%202021-02-20%20at%2015.30.50.png)
+![Screenshot3](https://github.com/hungvu193/DogeTheSpike/blob/master/Screenshot/Screen%20Shot%202021-02-20%20at%2015.31.16.png)
+![Screenshot4](https://github.com/hungvu193/DogeTheSpike/blob/master/Screenshot/Screen%20Shot%202021-02-20%20at%2015.31.42.png)
 # License
 
 ```
